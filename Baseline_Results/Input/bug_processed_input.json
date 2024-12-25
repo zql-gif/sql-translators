@@ -1,0 +1,340 @@
+[
+    {
+        "date": "15/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95820"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0(c0 INT UNIQUE, c1 INT, c2 INT UNIQUE) ENGINE = MyISAM;",
+            "INSERT INTO t0(c0) VALUES(DEFAULT), (\"\");",
+            "INSERT IGNORE INTO t0(c2) VALUES(\"a\");",
+            "REPLACE INTO t0(c1, c0, c2) VALUES(1, DEFAULT, DEFAULT), (DEFAULT, \"a\", \"a\");",
+            "REPAIR TABLE t0 QUICK EXTENDED USE_FRM;",
+            "SELECT * FROM t0; -- unexpected: Table 'to' is marked as crashed and last (automatic?) repair failed"
+        ],
+        "title": "REPAIR TABLE on a functional table marks it as crashed"
+    },
+    {
+        "date": "18/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95856"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0(c0 INT UNIQUE, c1 INT, c2 INT, c3 INT UNIQUE) ENGINE = MyISAM;",
+            "INSERT INTO t0(c0) VALUES(DEFAULT), (\"a\");",
+            "INSERT IGNORE INTO t0(c3) VALUES(\"a\"), (1);",
+            "REPLACE INTO t0(c1, c0, c3) VALUES(1, 2, 3), (1, \"a\", \"a\");",
+            "SELECT (NULL) IN (SELECT t0.c3 FROM t0 WHERE t0.c0);"
+        ],
+        "title": "\"Can't find record\" error in SELECT statement 1 (MyISAM engine)"
+    },
+    {
+        "date": "18/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95866"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0(c0 INT UNIQUE) ENGINE = HEAP;",
+            "INSERT INTO t0(c0) VALUES (DEFAULT), (\"a\"), (\"a\");",
+            "SELECT (NULL) IN (SELECT t0.c0 FROM t0 WHERE ((t0.c0) OR TRUE) IS NULL); -- unexpected: ERROR 1032 (HY000): Can't find record in 't0'"
+        ],
+        "title": "\"Can't find record\" error in SELECT statement 2 (HEAP engine)"
+    },
+    {
+        "date": "01/04/2020",
+        "dbms": "MySQL",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99150"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "closed (not a bug)",
+        "test": [
+            "CREATE TABLE t0(c0 FLOAT UNIQUE);",
+            "INSERT INTO t0(c0) VALUES (296088496), (0), (2080822651);",
+            "SELECT * FROM t0 WHERE t0.c0 NOT IN (622120376, -1.421821436E9, 296088496); -- expected: {0, 296089000, 2080820000}, actual: {0, 296089000}"
+        ],
+        "title": "The IN operator malfunctions for floating-poing numbers"
+    },
+    {
+        "date": "04/04/2020",
+        "dbms": "MySQL",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99182"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "closed (not a bug)",
+        "test": [
+            "CREATE TABLE t0(c0 DECIMAL UNIQUE);",
+            "INSERT INTO t0(c0) VALUES(0);",
+            "SELECT * FROM t0 WHERE '' BETWEEN t0.c0 AND t0.c0; -- expected: {0}, actual: {}"
+        ],
+        "title": "BETWEEN computes incorrect result when comparing DECIMAL with a string"
+    },
+    {
+        "comment": "We found this bug on the latest public version of MySQL. The bug report was closed, since the bug had already been fixed internally.",
+        "date": "20/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95900"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "closed (duplicate)",
+        "test": [
+            "CREATE TABLE t0(c0 INT);",
+            "INSERT INTO t0(c0) VALUES(1);",
+            "SELECT * FROM t0 WHERE 123 != (NOT (NOT 123)); -- expected: row is fetched, actual: row is not fetched"
+        ],
+        "title": "Applying NOT twice on an integer results in wrong result in WHERE condition"
+    },
+    {
+        "date": "21/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95908"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 TINYINT);",
+            "INSERT INTO t0(c0) VALUES(NULL);",
+            "SELECT * FROM t0 WHERE NOT(t0.c0 <=> 2035382037); -- expected: row is fetched, actual: no row is fetched"
+        ],
+        "title": "The negation of a \"<=>\" comparison malfunctions depending on the column's type"
+    },
+    {
+        "comment": "The bug was fixed in 8.0.17, but not necessarily based on our bug report, since it was not referenced.",
+        "date": "22/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95926"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 INT);",
+            "INSERT INTO t0(c0) VALUES(1);",
+            "SELECT * FROM t0 WHERE IF(FALSE, t0.c0, 0.1); -- expected: row is fetched, actual: row is not fetched"
+        ],
+        "title": "Row is not fetched when using a function expression that should yield TRUE"
+    },
+    {
+        "date": "22/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95927"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "SELECT FALSE XOR '0.5'; -- expected: 1, actual: 0"
+        ],
+        "title": "XOR operator returns incorrect result for strings with a floating-point number"
+    },
+    {
+        "date": "22/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.20",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95929"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 INT) ENGINE = MyISAM;",
+            "select * from information_schema.TABLES; -- unexpected (when executed with multiple threads): Duplicate entry 'triggerbug21-t0' for key 'PRIMARY'"
+        ],
+        "title": "Duplicate entry for key 'PRIMARY' when querying information_schema.TABLES"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95937"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed (in documentation)",
+        "test": [
+            "SELECT BENCHMARK(NULL, 1); -- expected: 0, actual: NULL",
+            "SELECT BENCHMARK(-1, 1); -- expected: 0, actual: NULL"
+        ],
+        "title": "BENCHMARK() returns NULL in some cases but is documented to always return 0"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95938"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 TEXT);",
+            "INSERT IGNORE INTO t0(c0) VALUES(\"\\n123\");",
+            "SELECT * FROM t0 WHERE COALESCE(t0.c0); -- expected: row is fetched, actual: no row is fetched",
+            "SELECT * FROM t0 WHERE IFNULL(t0.c0, 1); -- expected: row is fetched, actual: no row is fetched"
+        ],
+        "title": "Function return value with newline yields wrong result when used as a boolean"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95942"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 TEXT);",
+            "INSERT INTO t0(c0) VALUES(0.9);",
+            "SELECT * FROM t0 WHERE t0.c0; -- expected: row is fetched, actual: row is not fetched"
+        ],
+        "title": "TEXT column used as boolean incorrectly evaluates to false"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.18",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95954"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 BIGINT UNSIGNED);",
+            "INSERT INTO t0(c0) VALUES(NULL);",
+            "SELECT * FROM t0 WHERE CAST(COALESCE(t0.c0, -1) AS UNSIGNED); -- expected: row is selected, actual: no row is selected",
+            "SELECT * FROM t0 WHERE CAST(IFNULL(t0.c0, -1) AS UNSIGNED); -- expected: row is selected, actual: no row is selected"
+        ],
+        "title": "CAST of negative function return value to UNSIGNED malfunctions with BIGINT"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95957"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0(c0 INT);",
+            "INSERT INTO t0(c0) VALUES(-1);",
+            "SELECT t0.c0 IN (1, CAST(t0.c0 AS UNSIGNED)) from t0; -- expected: 0, actual: 1"
+        ],
+        "title": "IN operator issue when comparing signed column and the column cast to unsigned"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "MySQL",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95958"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 TEXT);",
+            "INSERT INTO t0(c0) VALUES(\"0.5\");",
+            "SELECT * FROM t0 WHERE t0.c0 AND 1; -- expected: 0.5, actual: no row is fetched",
+            "SELECT * FROM t0 WHERE t0.c0 OR 0; -- expected: 0.5, actual: no row is fetched",
+            "SELECT * FROM t0 WHERE t0.c0 XOR 0;  -- expected: 0.5, actual: no row is fetched"
+        ],
+        "title": "AND/OR/XOR compute wrong result for small floating-point numbers in TEXT columns"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95960"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "SELECT '\\n1' & 1; -- expected: 1, actual: 0",
+            "SELECT '\\n1' | 0; -- expected: 1, actual: 0",
+            "SELECT '\\n1' ^ 1; -- expected: 0, actual: 1"
+        ],
+        "title": "The logical operators &, |, and ^ do not ignore newlines in TEXT"
+    },
+    {
+        "date": "25/06/2019",
+        "dbms": "MySQL",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95964"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0(c0 INT);",
+            "CREATE TABLE t1(c0 INT) ENGINE = MEMORY;",
+            "INSERT INTO t0(c0) VALUES(0);",
+            "INSERT INTO t1(c0) VALUES(-1);",
+            "SELECT * FROM t0, t1 WHERE (CAST(t1.c0 AS UNSIGNED)) > (IFNULL(\"u\", t0.c0)); -- expected: row is fetched, actual: no row is fetched"
+        ],
+        "title": "Compare that uses UNSIGNED cast and function malfunctions in the MEMORY engine"
+    },
+    {
+        "date": "01/04/2020",
+        "dbms": "MySQL",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99146"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0(c0 FLOAT UNIQUE);",
+            "INSERT INTO t0(c0) VALUES (0);",
+            "SELECT * FROM t0 WHERE t0.c0 BETWEEN 0 AND '1e500'; -- expected: {0}, actual: {}"
+        ],
+        "title": "Comparison on FLOAT column and large value malfunctions"
+    },
+    {
+        "date": "01/04/2020",
+        "dbms": "MySQL",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99149"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0(c0 TEXT);",
+            "INSERT INTO t0(c0) VALUES(0);",
+            "CREATE INDEX i0 ON t0(c0(1));",
+            "SELECT * FROM t0 WHERE t0.c0 NOT BETWEEN '\u05a3a' AND NULL; -- expected: {0}, actual: {}"
+        ],
+        "title": "BETWEEN query malfunctions for special character and TEXT index"
+    }
+]

@@ -1,0 +1,6 @@
+cnt:26
+avg len:336.7307692307692
+transfer_success:7
+exec_success:0
+exec_error_type:{'UndefinedFunction': 6, 'AmbiguousFunction': 1}
+semantic_success:0

@@ -1,0 +1,782 @@
+[
+    {
+        "origin_sql": [
+            "SELECT (`f5`+`f6`&DATE_SUB('2009-08-28', INTERVAL 1 MINUTE)) AS `f1`,(!0) AS `f2`,(DATE_ADD(`f4`, INTERVAL 1 WEEK)) AS `f3` FROM (SELECT `col_double_undef_unsigned` AS `f4`,`col_float_undef_signed` AS `f5`,`col_decimal(40, 20)_undef_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (((ABS(0)) NOT BETWEEN STRCMP('2015-06-09', `f1`) AND `f1`) IS FALSE) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f5\" + \"f6\" & '2009-08-28' - INTERVAL '1 MINUTE'\n  ) AS \"f1\",\n  (\n    NOT 0\n  ) AS \"f2\",\n  (\n    \"f4\" + INTERVAL '1 WEEK'\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_unsigned\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_decimal(40, 20)_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        ABS(0)\n      ) BETWEEN STRCMP('2015-06-09', \"f1\") AND \"f1\"\n    ) IS FALSE\n  ) IS FALSE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f5\" + \"f6\" & '2009-08-28' - INTERVAL '1 MINUTE'\n  ) AS \"f1\",\n  (\n    NOT 0\n  ) AS \"f2\",\n  (\n    \"f4\" + INTERVAL '1 WEEK'\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_unsigned\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_decimal_40_20_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        ABS(0)\n      ) BETWEEN STRCMP('2015-06-09', \"f1\") AND \"f1\"\n    ) IS FALSE\n  ) IS FALSE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(0, 1, None), (2008, 1, None), (1, 1, None), (0, 1, None), (0, 1, None)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.InvalidDatetimeFormat) invalid input syntax for type interval: \"2009-08-28\"\nLINE 3:     \"f5\" + \"f6\" & '2009-08-28' - INTERVAL '1 MINUTE'\n                          ^\n\n[SQL: SELECT\n  (\n    \"f5\" + \"f6\" & '2009-08-28' - INTERVAL '1 MINUTE'\n  ) AS \"f1\",\n  (\n    NOT 0\n  ) AS \"f2\",\n  (\n    \"f4\" + INTERVAL '1 WEEK'\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_unsigned\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_decimal_40_20_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        ABS(0)\n      ) BETWEEN STRCMP('2015-06-09', \"f1\") AND \"f1\"\n    ) IS FALSE\n  ) IS FALSE;\n]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (SUBDATE('2018-02-03', INTERVAL 1 YEAR_MONTH)>>REPLACE(`f6`, `f5`, `f5`)) AS `f1`,(`f6`) AS `f2`,(-COLLATION(1)) AS `f3` FROM (SELECT `col_decimal(40, 20)_key_unsigned` AS `f4`,`col_decimal(40, 20)_undef_unsigned` AS `f5`,`col_decimal(40, 20)_undef_signed` AS `f6` FROM `table_3_utf8_undef`) AS `t1` HAVING (CAST((`f1`) AS CHAR) LIKE '%1%') IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    SUBDATE('2018-02-03', INTERVAL '1 YEAR_MONTH') >> REPLACE(\"f6\", \"f5\", \"f5\")\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    -COLLATION(1)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal(40, 20)_key_unsigned\" AS \"f4\",\n    \"col_decimal(40, 20)_undef_unsigned\" AS \"f5\",\n    \"col_decimal(40, 20)_undef_signed\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    CAST((\n      \"f1\"\n    ) AS CHAR) LIKE '%1%'\n  ) IS TRUE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    SUBDATE('2018-02-03', INTERVAL '1 YEAR_MONTH') >> REPLACE(\"f6\", \"f5\", \"f5\")\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    -COLLATION(1)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_key_unsigned\" AS \"f4\",\n    \"col_decimal_40_20_undef_unsigned\" AS \"f5\",\n    \"col_decimal_40_20_undef_signed\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    CAST((\n      \"f1\"\n    ) AS CHAR) LIKE '%1%'\n  ) IS TRUE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(1009, Decimal('1.00000000000000000000'), -0.0)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function subdate(unknown, interval) does not exist\nLINE 3:     SUBDATE('2018-02-03', INTERVAL '1 YEAR_MONTH') >> REPLAC...\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    SUBDATE('2018-02-03', INTERVAL '1 YEAR_MONTH') >> REPLACE(\"f6\", \"f5\", \"f5\")\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    -COLLATION(1)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_key_unsigned\" AS \"f4\",\n    \"col_decimal_40_20_undef_unsigned\" AS \"f5\",\n    \"col_decimal_40_20_undef_signed\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    CAST((\n      \"f1\"\n    ) AS CHAR) LIKE '%%1%%'\n  ) IS TRUE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f4`) AS `f1`,(SUBTIME('2013-12-02 07:51:50', '08:29:27')&~`f4`) AS `f2`,(`f6`) AS `f3` FROM (SELECT `col_bigint_undef_signed` AS `f4`,`col_char(20)_undef_signed` AS `f5`,`col_double_undef_unsigned` AS `f6` FROM `table_3_utf8_undef`) AS `t1` HAVING (NOT (CAST((`f2`) AS CHAR) LIKE '%0%')) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f4\"\n  ) AS \"f1\",\n  (\n    SUBTIME('2013-12-02 07:51:50', '08:29:27') & ~\"f4\"\n  ) AS \"f2\",\n  (\n    \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_signed\" AS \"f4\",\n    \"col_char(20)_undef_signed\" AS \"f5\",\n    \"col_double_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      CAST((\n        \"f2\"\n      ) AS CHAR) LIKE '%0%'\n    )\n  ) IS FALSE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f4\"\n  ) AS \"f1\",\n  (\n    SUBTIME('2013-12-02 07:51:50', '08:29:27') & ~\"f4\"\n  ) AS \"f2\",\n  (\n    \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_signed\" AS \"f4\",\n    \"col_char_20_undef_signed\" AS \"f5\",\n    \"col_double_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      CAST((\n        \"f2\"\n      ) AS CHAR) LIKE '%0%'\n    )\n  ) IS FALSE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(1, 2012, 2.0)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function subtime(unknown, unknown) does not exist\nLINE 6:     SUBTIME('2013-12-02 07:51:50', '08:29:27') & ~\"f4\"\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f4\"\n  ) AS \"f1\",\n  (\n    SUBTIME('2013-12-02 07:51:50', '08:29:27') & ~\"f4\"\n  ) AS \"f2\",\n  (\n    \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_signed\" AS \"f4\",\n    \"col_char_20_undef_signed\" AS \"f5\",\n    \"col_double_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      CAST((\n        \"f2\"\n      ) AS CHAR) LIKE '%%0%%'\n    )\n  ) IS FALSE;\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (~`f6`) AS `f1`,(`f5`) AS `f2`,(-CONCAT('h', `f5`, `f5`)+`f5`) AS `f3` FROM (SELECT `col_bigint_undef_unsigned` AS `f4`,`col_float_undef_signed` AS `f5`,`col_double_key_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (NOT (CAST((`f3`) AS CHAR) LIKE '%0%')) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    ~\"f6\"\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    -CONCAT('h', \"f5\", \"f5\") + \"f5\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_unsigned\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_double_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      CAST((\n        \"f3\"\n      ) AS CHAR) LIKE '%0%'\n    )\n  ) IS FALSE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    ~\"f6\"\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    -CONCAT('h', \"f5\", \"f5\") + \"f5\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_unsigned\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_double_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      CAST((\n        \"f3\"\n      ) AS CHAR) LIKE '%0%'\n    )\n  ) IS FALSE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(18446744073709551615, 15.1271, 15.127099990844727), (18446744073709551615, 12.991, 12.991000175476074), (18446744073709551614, -9.183, -9.182999610900879), (18446744073709551602, 0.0001, 9.999999747378752e-05), (18446744073709540485, 1.009, 1.0089999437332153)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) operator does not exist: ~ double precision\nLINE 3:     ~\"f6\"\n            ^\nHINT:  No operator matches the given name and argument type. You might need to add an explicit type cast.\n\n[SQL: SELECT\n  (\n    ~\"f6\"\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    -CONCAT('h', \"f5\", \"f5\") + \"f5\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_unsigned\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_double_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      CAST((\n        \"f3\"\n      ) AS CHAR) LIKE '%%0%%'\n    )\n  ) IS FALSE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT ('11:32:54') AS `f1`,(`f4`) AS `f2`,(SUBDATE('2016-12-05', INTERVAL 1 HOUR_SECOND)^!`f4`) AS `f3` FROM (SELECT `col_bigint_key_signed` AS `f4`,`col_float_undef_signed` AS `f5`,`col_double_undef_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (NOT (CAST((`f3`) AS CHAR) NOT REGEXP '[0-9]$')) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    '11:32:54'\n  ) AS \"f1\",\n  (\n    \"f4\"\n  ) AS \"f2\",\n  (\n    SUBDATE('2016-12-05', INTERVAL '1 HOUR_SECOND') # NOT \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_signed\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_double_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      NOT CAST((\n        \"f3\"\n      ) AS CHAR) ~ '[0-9]$'\n    )\n  ) IS TRUE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    '11:32:54'\n  ) AS \"f1\",\n  (\n    \"f4\"\n  ) AS \"f2\",\n  (\n    SUBDATE('2016-12-05', INTERVAL '1 HOUR_SECOND') # NOT \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_signed\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_double_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      NOT CAST((\n        \"f3\"\n      ) AS CHAR) ~ '[0-9]$'\n    )\n  ) IS TRUE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[('11:32:54', -9, 2016), ('11:32:54', -1, 2016), ('11:32:54', 0, 2017), ('11:32:54', 1, 2016), ('11:32:54', 1, 2016), ('11:32:54', 38, 2016), ('11:32:54', 107, 2016)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function subdate(unknown, interval) does not exist\nLINE 9:     SUBDATE('2016-12-05', INTERVAL '1 HOUR_SECOND') # NOT \"f...\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    '11:32:54'\n  ) AS \"f1\",\n  (\n    \"f4\"\n  ) AS \"f2\",\n  (\n    SUBDATE('2016-12-05', INTERVAL '1 HOUR_SECOND') # NOT \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_signed\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_double_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      NOT CAST((\n        \"f3\"\n      ) AS CHAR) ~ '[0-9]$'\n    )\n  ) IS TRUE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (PI()) AS `f1`,(`f5`) AS `f2`,(ADDTIME('2017-01-19 08:11:51', '20:52:20')>>SUBSTRING(`f5`, 7)) AS `f3` FROM (SELECT `col_bigint_key_unsigned` AS `f4`,`col_bigint_key_signed` AS `f5`,`col_bigint_key_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (((`f1`) NOT BETWEEN `f2` AND OCTET_LENGTH(`f3`)) IS TRUE) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    PI()\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    ADDTIME('2017-01-19 08:11:51', '20:52:20') >> SUBSTRING(\"f5\" FROM 7)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_signed\" AS \"f5\",\n    \"col_bigint_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        \"f1\"\n      ) BETWEEN \"f2\" AND OCTET_LENGTH(\"f3\")\n    ) IS TRUE\n  ) IS TRUE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    PI()\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    ADDTIME('2017-01-19 08:11:51', '20:52:20') >> SUBSTRING(\"f5\" FROM 7)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_signed\" AS \"f5\",\n    \"col_bigint_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        \"f1\"\n      ) BETWEEN \"f2\" AND OCTET_LENGTH(\"f3\")\n    ) IS TRUE\n  ) IS TRUE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(3.141593, 38, 2017), (3.141593, 107, 2017)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function addtime(unknown, unknown) does not exist\nLINE 9:     ADDTIME('2017-01-19 08:11:51', '20:52:20') >> SUBSTRING(...\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    PI()\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    ADDTIME('2017-01-19 08:11:51', '20:52:20') >> SUBSTRING(\"f5\" FROM 7)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_signed\" AS \"f5\",\n    \"col_bigint_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        \"f1\"\n      ) BETWEEN \"f2\" AND OCTET_LENGTH(\"f3\")\n    ) IS TRUE\n  ) IS TRUE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f5`) AS `f1`,(1) AS `f2`,(DAYNAME('2016-04-23')-`f4`) AS `f3` FROM (SELECT `col_decimal(40, 20)_undef_signed` AS `f4`,`col_float_undef_unsigned` AS `f5`,`col_double_key_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (((OCT(`f2`))=(`f3`)) IS TRUE) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    1\n  ) AS \"f2\",\n  (\n    DAYNAME('2016-04-23') - \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal(40, 20)_undef_signed\" AS \"f4\",\n    \"col_float_undef_unsigned\" AS \"f5\",\n    \"col_double_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        OCT(\"f2\")\n      ) = (\n        \"f3\"\n      )\n    ) IS TRUE\n  ) IS FALSE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    1\n  ) AS \"f2\",\n  (\n    DAYNAME('2016-04-23') - \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_undef_signed\" AS \"f4\",\n    \"col_float_undef_unsigned\" AS \"f5\",\n    \"col_double_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        OCT(\"f2\")\n      ) = (\n        \"f3\"\n      )\n    ) IS TRUE\n  ) IS FALSE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(12.991, 1, -3.1387), (0.0, 1, -1.0), (0.0001, 1, 0.0001), (2.0, 1, -2.0), (47.0, 1, -1.009), (28.1237, 1, -2.0), (80.0284, 1, 0.0)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function dayname(unknown) does not exist\nLINE 9:     DAYNAME('2016-04-23') - \"f4\"\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    1\n  ) AS \"f2\",\n  (\n    DAYNAME('2016-04-23') - \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_undef_signed\" AS \"f4\",\n    \"col_float_undef_unsigned\" AS \"f5\",\n    \"col_double_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        OCT(\"f2\")\n      ) = (\n        \"f3\"\n      )\n    ) IS TRUE\n  ) IS FALSE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f4`) AS `f1`,(-NULL) AS `f2`,(-`f5`-SUBDATE('2010-11-01', INTERVAL 1 DAY_MICROSECOND)+ATAN(0)) AS `f3` FROM (SELECT `col_double_undef_signed` AS `f4`,`col_float_key_signed` AS `f5`,`col_double_key_unsigned` AS `f6` FROM `table_3_utf8_undef`) AS `t1` HAVING ((((UPPER(`f3`)>>-DEGREES(0.24279497386328433)-ASCII('01:37:49'))>=(`f3`)) IS FALSE) OR (NOT (`f3`))) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f4\"\n  ) AS \"f1\",\n  (\n    -NULL\n  ) AS \"f2\",\n  (\n    -\"f5\" - SUBDATE('2010-11-01', INTERVAL '1 DAY_MICROSECOND') + ATAN(0)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_signed\" AS \"f4\",\n    \"col_float_key_signed\" AS \"f5\",\n    \"col_double_key_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        (\n          UPPER(\"f3\") >> -DEGREES(0.24279497386328433) - ASCII('01:37:49')\n        ) >= (\n          \"f3\"\n        )\n      ) IS FALSE\n    )\n    OR (\n      NOT (\n        \"f3\"\n      )\n    )\n  ) IS FALSE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f4\"\n  ) AS \"f1\",\n  (\n    -NULL\n  ) AS \"f2\",\n  (\n    -\"f5\" - SUBDATE('2010-11-01', INTERVAL '1 DAY_MICROSECOND') + ATAN(0)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_signed\" AS \"f4\",\n    \"col_float_key_signed\" AS \"f5\",\n    \"col_double_key_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        (\n          UPPER(\"f3\") >> -DEGREES(0.24279497386328433) - ASCII('01:37:49')\n        ) >= (\n          \"f3\"\n        )\n      ) IS FALSE\n    )\n    OR (\n      NOT (\n        \"f3\"\n      )\n    )\n  ) IS FALSE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(12.991, None, -2104.1106033325195), (12.991, None, -2011.0), (-2.0, None, -2010.0000999999975)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.AmbiguousFunction) operator is not unique: - unknown\nLINE 6:     -NULL\n            ^\nHINT:  Could not choose a best candidate operator. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f4\"\n  ) AS \"f1\",\n  (\n    -NULL\n  ) AS \"f2\",\n  (\n    -\"f5\" - SUBDATE('2010-11-01', INTERVAL '1 DAY_MICROSECOND') + ATAN(0)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_signed\" AS \"f4\",\n    \"col_float_key_signed\" AS \"f5\",\n    \"col_double_key_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        (\n          UPPER(\"f3\") >> -DEGREES(0.24279497386328433) - ASCII('01:37:49')\n        ) >= (\n          \"f3\"\n        )\n      ) IS FALSE\n    )\n    OR (\n      NOT (\n        \"f3\"\n      )\n    )\n  ) IS FALSE;\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "WITH `MYWITH` AS (SELECT (FORMAT_BYTES(-1145669085809520678)) AS `f1`,(~FROM_DAYS(2150698081830417920)+-5359912329703405954) AS `f2`,(DATE_ADD(YEARWEEK('2010-03-24'), INTERVAL 1 SECOND)) AS `f3` FROM (SELECT `col_double_undef_signed` AS `f4`,`col_double_key_unsigned` AS `f5`,`col_bigint_key_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1`) SELECT * FROM `MYWITH`"
+        ],
+        "target_sql": [
+            "WITH \"MYWITH\" AS (\n  SELECT\n    (\n      FORMAT_BYTES(-1145669085809520678)\n    ) AS \"f1\",\n    (\n      ~FROM_DAYS(2150698081830417920) + -5359912329703405954\n    ) AS \"f2\",\n    (\n      YEARWEEK('2010-03-24') + INTERVAL '1 SECOND'\n    ) AS \"f3\"\n  FROM (\n    SELECT\n      \"col_double_undef_signed\" AS \"f4\",\n      \"col_double_key_unsigned\" AS \"f5\",\n      \"col_bigint_key_unsigned\" AS \"f6\"\n    FROM \"table_7_utf8_undef\"\n  ) AS \"t1\"\n)\nSELECT\n  *\nFROM \"MYWITH\";"
+        ],
+        "target_sql_processed": "WITH \"MYWITH\" AS (\n  SELECT\n    (\n      FORMAT_BYTES(-1145669085809520678)\n    ) AS \"f1\",\n    (\n      ~FROM_DAYS(2150698081830417920) + -5359912329703405954\n    ) AS \"f2\",\n    (\n      YEARWEEK('2010-03-24') + INTERVAL '1 SECOND'\n    ) AS \"f3\"\n  FROM (\n    SELECT\n      \"col_double_undef_signed\" AS \"f4\",\n      \"col_double_key_unsigned\" AS \"f5\",\n      \"col_bigint_key_unsigned\" AS \"f6\"\n    FROM \"table_7_utf8_undef\"\n  ) AS \"t1\"\n)\nSELECT\n  *\nFROM \"MYWITH\";",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[('-1017.56 PiB', 13086831744006145661, '2020-10-12 00:00:01'), ('-1017.56 PiB', 13086831744006145661, '2020-10-12 00:00:01'), ('-1017.56 PiB', 13086831744006145661, '2020-10-12 00:00:01'), ('-1017.56 PiB', 13086831744006145661, '2020-10-12 00:00:01'), ('-1017.56 PiB', 13086831744006145661, '2020-10-12 00:00:01'), ('-1017.56 PiB', 13086831744006145661, '2020-10-12 00:00:01'), ('-1017.56 PiB', 13086831744006145661, '2020-10-12 00:00:01')]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function format_bytes(bigint) does not exist\nLINE 4:       FORMAT_BYTES(-1145669085809520678)\n              ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: WITH \"MYWITH\" AS (\n  SELECT\n    (\n      FORMAT_BYTES(-1145669085809520678)\n    ) AS \"f1\",\n    (\n      ~FROM_DAYS(2150698081830417920) + -5359912329703405954\n    ) AS \"f2\",\n    (\n      YEARWEEK('2010-03-24') + INTERVAL '1 SECOND'\n    ) AS \"f3\"\n  FROM (\n    SELECT\n      \"col_double_undef_signed\" AS \"f4\",\n      \"col_double_key_unsigned\" AS \"f5\",\n      \"col_bigint_key_unsigned\" AS \"f6\"\n    FROM \"table_7_utf8_undef\"\n  ) AS \"t1\"\n)\nSELECT\n  *\nFROM \"MYWITH\";]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f6`) AS `f1`,(SUBDATE('2018-06-28', INTERVAL 1 MICROSECOND)*COERCIBILITY(`f6`)>>`f4`) AS `f2`,(UNHEX(1)<<`f5`) AS `f3` FROM (SELECT `col_bigint_key_signed` AS `f4`,`col_double_undef_signed` AS `f5`,`col_float_key_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((`f2`) AND ((!COERCIBILITY(`f1`)) IS FALSE)) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f6\"\n  ) AS \"f1\",\n  (\n    SUBDATE('2018-06-28', INTERVAL '1 MICROSECOND') * COERCIBILITY(\"f6\") >> \"f4\"\n  ) AS \"f2\",\n  (\n    UNHEX(1) << \"f5\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_signed\" AS \"f4\",\n    \"col_double_undef_signed\" AS \"f5\",\n    \"col_float_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      \"f2\"\n    ) AND (\n      (\n        NOT COERCIBILITY(\"f1\")\n      ) IS FALSE\n    )\n  ) IS TRUE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f6\"\n  ) AS \"f1\",\n  (\n    SUBDATE('2018-06-28', INTERVAL '1 MICROSECOND') * COERCIBILITY(\"f6\") >> \"f4\"\n  ) AS \"f2\",\n  (\n    UNHEX(1) << \"f5\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_signed\" AS \"f4\",\n    \"col_double_undef_signed\" AS \"f5\",\n    \"col_float_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      \"f2\"\n    ) AND (\n      (\n        NOT COERCIBILITY(\"f1\")\n      ) IS FALSE\n    )\n  ) IS TRUE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(0.0001, 5045, b'\\x00'), (1.0, 5045, b'\\x00'), (0.0, 10090, b'\\x00')]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function subdate(unknown, interval) does not exist\nLINE 6:     SUBDATE('2018-06-28', INTERVAL '1 MICROSECOND') * COERCI...\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f6\"\n  ) AS \"f1\",\n  (\n    SUBDATE('2018-06-28', INTERVAL '1 MICROSECOND') * COERCIBILITY(\"f6\") >> \"f4\"\n  ) AS \"f2\",\n  (\n    UNHEX(1) << \"f5\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_signed\" AS \"f4\",\n    \"col_double_undef_signed\" AS \"f5\",\n    \"col_float_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      \"f2\"\n    ) AND (\n      (\n        NOT COERCIBILITY(\"f1\")\n      ) IS FALSE\n    )\n  ) IS TRUE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (CHARSET(`f5`)) AS `f1`,(BINARY `f4`|SUBDATE('2008-12-08', INTERVAL 1 DAY_MINUTE)) AS `f2`,(`f6`) AS `f3` FROM (SELECT `col_bigint_undef_unsigned` AS `f4`,`col_decimal(40, 20)_undef_signed` AS `f5`,`col_bigint_undef_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((CAST((`f2`) AS CHAR) NOT LIKE '%1%') IS FALSE) IS TRUE"
+        ],
+        "target_sql": [
+            "Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Paren'>. Line 1, Col: 15. SELECT (\u001b[4mCHARSET\u001b[0m(`f5`)) AS `f1`,(BINARY `f4`|SUBDATE('2008-12-08', INTERVAL 1 DAY_MINUTE)) AS `f2`,(`f6`) AS `f3` FR"
+        ],
+        "target_sql_processed": "Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Paren'>. Line 1, Col: 15. SELECT (\u001b[4mCHARSET\u001b[0m(`f5`)) AS `f1`,(BINARY `f4`|SUBDATE('2008-12-08', INTERVAL 1 DAY_MINUTE)) AS `f2`,(`f6`) AS `f3` FR",
+        "trans_success": [
+            false
+        ],
+        "origin_exec_result": [
+            "[('binary', 2013, 79), ('binary', 2013, 0)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.SyntaxError) syntax error at or near \"Error\"\nLINE 1: Error while parsing\n        ^\n\n[SQL: Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Paren'>. Line 1, Col: 15. SELECT (\u001b[4mCHARSET\u001b[0m(`f5`)) AS `f1`,(BINARY `f4`|SUBDATE('2008-12-08', INTERVAL 1 DAY_MINUTE)) AS `f2`,(`f6`) AS `f3` FR]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f6`) AS `f1`,(-2567318801373363411) AS `f2`,(ADDTIME('2005-06-22 17:17:05', '00:47:20')|~`f5`%CEILING(3)) AS `f3` FROM (SELECT `col_decimal(40, 20)_undef_unsigned` AS `f4`,`col_double_key_signed` AS `f5`,`col_double_undef_signed` AS `f6` FROM `table_3_utf8_undef`) AS `t1` HAVING ((((~`f3`)>(BINARY `f1`)) IS TRUE) AND ((`f3`) IS TRUE) OR ((`f3`) IS TRUE)) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f6\"\n  ) AS \"f1\",\n  (\n    -2567318801373363411\n  ) AS \"f2\",\n  (\n    ADDTIME('2005-06-22 17:17:05', '00:47:20') | ~\"f5\" % CEIL(3)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal(40, 20)_undef_unsigned\" AS \"f4\",\n    \"col_double_key_signed\" AS \"f5\",\n    \"col_double_undef_signed\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        (\n          ~\"f3\"\n        ) > (\n          CAST(\"f1\" AS BYTEA)\n        )\n      ) IS TRUE\n    )\n    AND (\n      (\n        \"f3\"\n      ) IS TRUE\n    )\n    OR (\n      (\n        \"f3\"\n      ) IS TRUE\n    )\n  ) IS TRUE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f6\"\n  ) AS \"f1\",\n  (\n    -2567318801373363411\n  ) AS \"f2\",\n  (\n    ADDTIME('2005-06-22 17:17:05', '00:47:20') | ~\"f5\" % CEIL(3)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_undef_unsigned\" AS \"f4\",\n    \"col_double_key_signed\" AS \"f5\",\n    \"col_double_undef_signed\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        (\n          ~\"f3\"\n        ) > (\n          CAST(\"f1\" AS BYTEA)\n        )\n      ) IS TRUE\n    )\n    AND (\n      (\n        \"f3\"\n      ) IS TRUE\n    )\n    OR (\n      (\n        \"f3\"\n      ) IS TRUE\n    )\n  ) IS TRUE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(12.991, -2567318801373363411, 2005), (12.991, -2567318801373363411, 2005), (-2.0, -2567318801373363411, 2005)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function addtime(unknown, unknown) does not exist\nLINE 9:     ADDTIME('2005-06-22 17:17:05', '00:47:20') | ~\"f5\" % CEI...\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f6\"\n  ) AS \"f1\",\n  (\n    -2567318801373363411\n  ) AS \"f2\",\n  (\n    ADDTIME('2005-06-22 17:17:05', '00:47:20') | ~\"f5\" %% CEIL(3)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_undef_unsigned\" AS \"f4\",\n    \"col_double_key_signed\" AS \"f5\",\n    \"col_double_undef_signed\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        (\n          ~\"f3\"\n        ) > (\n          CAST(\"f1\" AS BYTEA)\n        )\n      ) IS TRUE\n    )\n    AND (\n      (\n        \"f3\"\n      ) IS TRUE\n    )\n    OR (\n      (\n        \"f3\"\n      ) IS TRUE\n    )\n  ) IS TRUE;\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (CHARSET(`f6`)) AS `f1`,(ASCII(`f4`)|DAYNAME('2019-04-20')+`f6`) AS `f2`,(`f5`) AS `f3` FROM (SELECT `col_varchar(20)_undef_signed` AS `f4`,`col_decimal(40, 20)_key_unsigned` AS `f5`,`col_double_undef_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((COERCIBILITY(`f2`))<(`f1`)) IS FALSE"
+        ],
+        "target_sql": [
+            "Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Paren'>. Line 1, Col: 15. SELECT (\u001b[4mCHARSET\u001b[0m(`f6`)) AS `f1`,(ASCII(`f4`)|DAYNAME('2019-04-20')+`f6`) AS `f2`,(`f5`) AS `f3` FROM (SELECT `col_va"
+        ],
+        "target_sql_processed": "Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Paren'>. Line 1, Col: 15. SELECT (\u001b[4mCHARSET\u001b[0m(`f6`)) AS `f1`,(ASCII(`f4`)|DAYNAME('2019-04-20')+`f6`) AS `f2`,(`f5`) AS `f3` FROM (SELECT `col_va",
+        "trans_success": [
+            false
+        ],
+        "origin_exec_result": [
+            "[('binary', 52, Decimal('0.00010000000000000000')), ('binary', 107, Decimal('12.99100000000000000000')), ('binary', 49, Decimal('2.00000000000000000000')), ('binary', 18446744073709551615, Decimal('12.99100000000000000000')), ('binary', 61, Decimal('6949.00000000000000000000')), ('binary', 61, Decimal('1.00900000000000000000')), ('binary', 51, Decimal('0E-20'))]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.SyntaxError) syntax error at or near \"Error\"\nLINE 1: Error while parsing\n        ^\n\n[SQL: Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Paren'>. Line 1, Col: 15. SELECT (\u001b[4mCHARSET\u001b[0m(`f6`)) AS `f1`,(ASCII(`f4`)|DAYNAME('2019-04-20')+`f6`) AS `f2`,(`f5`) AS `f3` FROM (SELECT `col_va]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f4`|!`f4`|ADDDATE('2003-11-17', INTERVAL 1 MICROSECOND)) AS `f1`,(!`f4`) AS `f2`,(COERCIBILITY(`f5`)) AS `f3` FROM (SELECT `col_varchar(20)_key_signed` AS `f4`,`col_varchar(20)_undef_signed` AS `f5`,`col_float_undef_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((COERCIBILITY(`f1`)) NOT BETWEEN SOUNDEX(`f2`) AND `f1`) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f4\" | NOT \"f4\" | ADDDATE('2003-11-17', INTERVAL '1 MICROSECOND')\n  ) AS \"f1\",\n  (\n    NOT \"f4\"\n  ) AS \"f2\",\n  (\n    COERCIBILITY(\"f5\")\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_varchar(20)_key_signed\" AS \"f4\",\n    \"col_varchar(20)_undef_signed\" AS \"f5\",\n    \"col_float_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      COERCIBILITY(\"f1\")\n    ) BETWEEN SOUNDEX(\"f2\") AND \"f1\"\n  ) IS FALSE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f4\" | NOT \"f4\" | ADDDATE('2003-11-17', INTERVAL '1 MICROSECOND')\n  ) AS \"f1\",\n  (\n    NOT \"f4\"\n  ) AS \"f2\",\n  (\n    COERCIBILITY(\"f5\")\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_varchar_20_key_signed\" AS \"f4\",\n    \"col_varchar_20_undef_signed\" AS \"f5\",\n    \"col_float_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      COERCIBILITY(\"f1\")\n    ) BETWEEN SOUNDEX(\"f2\") AND \"f1\"\n  ) IS FALSE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(2003, 1, 2), (2003, 1, 2), (2003, 0, 2), (2003, 1, 2), (2003, 1, 2), (2003, 0, 2), (2003, 0, 2)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function adddate(unknown, interval) does not exist\nLINE 3:     \"f4\" | NOT \"f4\" | ADDDATE('2003-11-17', INTERVAL '1 MICR...\n                              ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f4\" | NOT \"f4\" | ADDDATE('2003-11-17', INTERVAL '1 MICROSECOND')\n  ) AS \"f1\",\n  (\n    NOT \"f4\"\n  ) AS \"f2\",\n  (\n    COERCIBILITY(\"f5\")\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_varchar_20_key_signed\" AS \"f4\",\n    \"col_varchar_20_undef_signed\" AS \"f5\",\n    \"col_float_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      COERCIBILITY(\"f1\")\n    ) BETWEEN SOUNDEX(\"f2\") AND \"f1\"\n  ) IS FALSE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f6`*`f5`) AS `f1`,(SEC_TO_TIME(4839279895381454276)) AS `f2`,(BINARY 'r') AS `f3` FROM (SELECT `col_float_undef_unsigned` AS `f4`,`col_decimal(40, 20)_key_signed` AS `f5`,`col_char(20)_key_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING CAST((`f1`) AS CHAR) NOT REGEXP '[0-9]+[a-z]+'"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f6\" * \"f5\"\n  ) AS \"f1\",\n  (\n    SEC_TO_TIME(4839279895381454276)\n  ) AS \"f2\",\n  (\n    CAST('r' AS BYTEA)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_unsigned\" AS \"f4\",\n    \"col_decimal(40, 20)_key_signed\" AS \"f5\",\n    \"col_char(20)_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  NOT CAST((\n    \"f1\"\n  ) AS CHAR) ~ '[0-9]+[a-z]+';"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f6\" * \"f5\"\n  ) AS \"f1\",\n  (\n    SEC_TO_TIME(4839279895381454276)\n  ) AS \"f2\",\n  (\n    CAST('r' AS BYTEA)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_unsigned\" AS \"f4\",\n    \"col_decimal_40_20_key_signed\" AS \"f5\",\n    \"col_char_20_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  NOT CAST((\n    \"f1\"\n  ) AS CHAR) ~ '[0-9]+[a-z]+';",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(0.0, datetime.timedelta(days=34, seconds=82799), b'r'), (-120.0, datetime.timedelta(days=34, seconds=82799), b'r'), (0.0, datetime.timedelta(days=34, seconds=82799), b'r'), (0.0, datetime.timedelta(days=34, seconds=82799), b'r'), (6.0, datetime.timedelta(days=34, seconds=82799), b'r'), (-0.0, datetime.timedelta(days=34, seconds=82799), b'r')]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) operator does not exist: character * numeric\nLINE 3:     \"f6\" * \"f5\"\n                 ^\nHINT:  No operator matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f6\" * \"f5\"\n  ) AS \"f1\",\n  (\n    SEC_TO_TIME(4839279895381454276)\n  ) AS \"f2\",\n  (\n    CAST('r' AS BYTEA)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_unsigned\" AS \"f4\",\n    \"col_decimal_40_20_key_signed\" AS \"f5\",\n    \"col_char_20_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  NOT CAST((\n    \"f1\"\n  ) AS CHAR) ~ '[0-9]+[a-z]+';]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f5`) AS `f1`,(ADDDATE('2009-10-09', INTERVAL 1 SECOND)&`f5`) AS `f2`,(`f6`) AS `f3` FROM (SELECT `col_double_key_unsigned` AS `f4`,`col_bigint_key_unsigned` AS `f5`,`col_decimal(40, 20)_key_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((`f2` DIV TIME_TO_SEC('01:40:41')+BIN(1)) IS TRUE) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    ADDDATE('2009-10-09', INTERVAL '1 SECOND') & \"f5\"\n  ) AS \"f2\",\n  (\n    \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_unsigned\" AS \"f5\",\n    \"col_decimal(40, 20)_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      DIV(\"f2\", TIME_TO_SEC('01:40:41')) + BIN(1)\n    ) IS TRUE\n  ) IS TRUE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    ADDDATE('2009-10-09', INTERVAL '1 SECOND') & \"f5\"\n  ) AS \"f2\",\n  (\n    \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_unsigned\" AS \"f5\",\n    \"col_decimal_40_20_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      DIV(\"f2\", TIME_TO_SEC('01:40:41')) + BIN(1)\n    ) IS TRUE\n  ) IS TRUE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(2, 0, Decimal('0E-20')), (2, 0, Decimal('120.00000000000000000000')), (1, 1, Decimal('0.00010000000000000000')), (1, 1, Decimal('2.00000000000000000000')), (13, 9, Decimal('-0.00010000000000000000')), (0, 0, Decimal('2.00000000000000000000')), (1, 1, Decimal('1.00000000000000000000'))]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function adddate(unknown, interval) does not exist\nLINE 6:     ADDDATE('2009-10-09', INTERVAL '1 SECOND') & \"f5\"\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    ADDDATE('2009-10-09', INTERVAL '1 SECOND') & \"f5\"\n  ) AS \"f2\",\n  (\n    \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_unsigned\" AS \"f5\",\n    \"col_decimal_40_20_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      DIV(\"f2\", TIME_TO_SEC('01:40:41')) + BIN(1)\n    ) IS TRUE\n  ) IS TRUE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f5`|BINARY SUBSTRING(`f6`, 0)) AS `f1`,(`f5`^`f6`+DATE_ADD('2000-03-18', INTERVAL 1 DAY_HOUR)) AS `f2`,(`f4`) AS `f3` FROM (SELECT `col_bigint_key_unsigned` AS `f4`,`col_bigint_key_unsigned` AS `f5`,`col_bigint_undef_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((NOT ((ACOS(0)) NOT BETWEEN `f2` AND `f3`)) OR (ROUND(3))) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f5\" | CAST(SUBSTRING(\"f6\" FROM 0) AS BYTEA)\n  ) AS \"f1\",\n  (\n    \"f5\" # \"f6\" + '2000-03-18' + INTERVAL '1 DAY_HOUR'\n  ) AS \"f2\",\n  (\n    \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_unsigned\" AS \"f5\",\n    \"col_bigint_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        NOT (\n          ACOS(0)\n        ) BETWEEN \"f2\" AND \"f3\"\n      )\n    )\n    OR (\n      ROUND(3)\n    )\n  ) IS TRUE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f5\" | CAST(SUBSTRING(\"f6\" FROM 0) AS BYTEA)\n  ) AS \"f1\",\n  (\n    \"f5\" # \"f6\" + '2000-03-18' + INTERVAL '1 DAY_HOUR'\n  ) AS \"f2\",\n  (\n    \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_unsigned\" AS \"f5\",\n    \"col_bigint_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        NOT (\n          ACOS(0)\n        ) BETWEEN \"f2\" AND \"f3\"\n      )\n    )\n    OR (\n      ROUND(3)\n    )\n  ) IS TRUE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(2, 1.8446744073709552e+19, 2), (2, 2077.0, 2), (1, 1.8446744073709552e+19, 1), (1, 2001.0, 1), (13, 2012.0, 13), (0, 2000.0, 0), (1, 2044.0, 1)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function pg_catalog.substring(bigint, integer) does not exist\nLINE 3:     \"f5\" | CAST(SUBSTRING(\"f6\" FROM 0) AS BYTEA)\n                        ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f5\" | CAST(SUBSTRING(\"f6\" FROM 0) AS BYTEA)\n  ) AS \"f1\",\n  (\n    \"f5\" # \"f6\" + '2000-03-18' + INTERVAL '1 DAY_HOUR'\n  ) AS \"f2\",\n  (\n    \"f4\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_key_unsigned\" AS \"f4\",\n    \"col_bigint_key_unsigned\" AS \"f5\",\n    \"col_bigint_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        NOT (\n          ACOS(0)\n        ) BETWEEN \"f2\" AND \"f3\"\n      )\n    )\n    OR (\n      ROUND(3)\n    )\n  ) IS TRUE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (COERCIBILITY('08:18:21')) AS `f1`,(`f6`) AS `f2`,(`f6`>>DAYNAME('2005-03-05')|~LN(0.48921000703043616)) AS `f3` FROM (SELECT `col_decimal(40, 20)_key_signed` AS `f4`,`col_float_key_unsigned` AS `f5`,`col_bigint_key_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (NOT (`f3`)) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    COERCIBILITY('08:18:21')\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    \"f6\" >> DAYNAME('2005-03-05') | ~LN(0.48921000703043616)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal(40, 20)_key_signed\" AS \"f4\",\n    \"col_float_key_unsigned\" AS \"f5\",\n    \"col_bigint_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      \"f3\"\n    )\n  ) IS FALSE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    COERCIBILITY('08:18:21')\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    \"f6\" >> DAYNAME('2005-03-05') | ~LN(0.48921000703043616)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_key_signed\" AS \"f4\",\n    \"col_float_key_unsigned\" AS \"f5\",\n    \"col_bigint_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      \"f3\"\n    )\n  ) IS FALSE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(4, 1, 1), (4, 1, 1), (4, 1, 1), (4, 2, 2), (4, 2, 2), (4, 13, 13)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function coercibility(unknown) does not exist\nLINE 3:     COERCIBILITY('08:18:21')\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    COERCIBILITY('08:18:21')\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    \"f6\" >> DAYNAME('2005-03-05') | ~LN(0.48921000703043616)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_key_signed\" AS \"f4\",\n    \"col_float_key_unsigned\" AS \"f5\",\n    \"col_bigint_key_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    NOT (\n      \"f3\"\n    )\n  ) IS FALSE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f5`&DATE_ADD('2014-07-25', INTERVAL 1 HOUR_SECOND)) AS `f1`,(`f5`) AS `f2`,(`f5` DIV -`f5`) AS `f3` FROM (SELECT `col_float_undef_signed` AS `f4`,`col_decimal(40, 20)_key_signed` AS `f5`,`col_varchar(20)_undef_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING NOT ((`f1`) BETWEEN 'like' AND 0)"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f5\" & '2014-07-25' + INTERVAL '1 HOUR_SECOND'\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    DIV(\"f5\", -\"f5\")\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_signed\" AS \"f4\",\n    \"col_decimal(40, 20)_key_signed\" AS \"f5\",\n    \"col_varchar(20)_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  NOT (\n    (\n      \"f1\"\n    ) BETWEEN 'like' AND 0\n  );"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f5\" & '2014-07-25' + INTERVAL '1 HOUR_SECOND'\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    DIV(\"f5\", -\"f5\")\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_signed\" AS \"f4\",\n    \"col_decimal_40_20_key_signed\" AS \"f5\",\n    \"col_varchar_20_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  NOT (\n    (\n      \"f1\"\n    ) BETWEEN 'like' AND 0\n  );",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(2, Decimal('2.00000000000000000000'), -1), (2, Decimal('2.00000000000000000000'), -1), (88, Decimal('120.00000000000000000000'), -1)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.InvalidDatetimeFormat) invalid input syntax for type interval: \"2014-07-25\"\nLINE 3:     \"f5\" & '2014-07-25' + INTERVAL '1 HOUR_SECOND'\n                   ^\n\n[SQL: SELECT\n  (\n    \"f5\" & '2014-07-25' + INTERVAL '1 HOUR_SECOND'\n  ) AS \"f1\",\n  (\n    \"f5\"\n  ) AS \"f2\",\n  (\n    DIV(\"f5\", -\"f5\")\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_signed\" AS \"f4\",\n    \"col_decimal_40_20_key_signed\" AS \"f5\",\n    \"col_varchar_20_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  NOT (\n    (\n      \"f1\"\n    ) BETWEEN 'like' AND 0\n  );]\n(Background on this error at: https://sqlalche.me/e/20/9h9h)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (909052254527060141>>`f6`) AS `f1`,(`f5`|DAYNAME('2006-03-26')) AS `f2`,(~`f4`%`f4`*~0) AS `f3` FROM (SELECT `col_char(20)_undef_signed` AS `f4`,`col_bigint_undef_unsigned` AS `f5`,`col_double_key_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (((CAST((`f2`) AS CHAR) NOT LIKE '%1%') IS FALSE) AND (((CEILING(5)) NOT BETWEEN OCT(`f3`) AND `f3`) IS TRUE)) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    909052254527060141 >> \"f6\"\n  ) AS \"f1\",\n  (\n    \"f5\" | DAYNAME('2006-03-26')\n  ) AS \"f2\",\n  (\n    ~\"f4\" % \"f4\" * ~0\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_char(20)_undef_signed\" AS \"f4\",\n    \"col_bigint_undef_unsigned\" AS \"f5\",\n    \"col_double_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        NOT CAST((\n          \"f2\"\n        ) AS CHAR) LIKE '%1%'\n      ) IS FALSE\n    )\n    AND (\n      (\n        NOT (\n          CEIL(5)\n        ) BETWEEN OCT(\"f3\") AND \"f3\"\n      ) IS TRUE\n    )\n  ) IS FALSE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    909052254527060141 >> \"f6\"\n  ) AS \"f1\",\n  (\n    \"f5\" | DAYNAME('2006-03-26')\n  ) AS \"f2\",\n  (\n    ~\"f4\" % \"f4\" * ~0\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_char_20_undef_signed\" AS \"f4\",\n    \"col_bigint_undef_unsigned\" AS \"f5\",\n    \"col_double_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        NOT CAST((\n          \"f2\"\n        ) AS CHAR) LIKE '%1%'\n      ) IS FALSE\n    )\n    AND (\n      (\n        NOT (\n          CEIL(5)\n        ) BETWEEN OCT(\"f3\") AND \"f3\"\n      ) IS TRUE\n    )\n  ) IS FALSE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(0, 13, 1.8446744073709552e+19), (110968292788947, 1, 1.8446744073709552e+19), (227263063631765035, 13, 1.8446744073709552e+19), (454526127263530070, 0, 0.0), (909052254527060141, 1, None), (0, 1, None)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) operator does not exist: bigint >> double precision\nLINE 3:     909052254527060141 >> \"f6\"\n                               ^\nHINT:  No operator matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    909052254527060141 >> \"f6\"\n  ) AS \"f1\",\n  (\n    \"f5\" | DAYNAME('2006-03-26')\n  ) AS \"f2\",\n  (\n    ~\"f4\" %% \"f4\" * ~0\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_char_20_undef_signed\" AS \"f4\",\n    \"col_bigint_undef_unsigned\" AS \"f5\",\n    \"col_double_key_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        NOT CAST((\n          \"f2\"\n        ) AS CHAR) LIKE '%%1%%'\n      ) IS FALSE\n    )\n    AND (\n      (\n        NOT (\n          CEIL(5)\n        ) BETWEEN OCT(\"f3\") AND \"f3\"\n      ) IS TRUE\n    )\n  ) IS FALSE;\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f6`) AS `f1`,(SUBDATE('2018-12-21', INTERVAL 1 MICROSECOND)|`f4`^COLLATION(`f4`)) AS `f2`,(!COLLATION(`f6`)&-CHARSET(`f4`)*ROUND(0.41382619215470384)) AS `f3` FROM (SELECT `col_double_key_unsigned` AS `f4`,`col_bigint_undef_signed` AS `f5`,`col_decimal(40, 20)_key_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((`f3`) BETWEEN `f3` AND `f2`) IS TRUE"
+        ],
+        "target_sql": [
+            "Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Neg'>. Line 1, Col: 125. f1`,(SUBDATE('2018-12-21', INTERVAL 1 MICROSECOND)|`f4`^COLLATION(`f4`)) AS `f2`,(!COLLATION(`f6`)&-\u001b[4mCHARSET\u001b[0m(`f4`)*ROUND(0.41382619215470384)) AS `f3` FROM (SELECT `col_double_key_unsigned` AS `f4`,`col_bigin\nTo\n\n\n\n"
+        ],
+        "target_sql_processed": "Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Neg'>. Line 1, Col: 125. f1`,(SUBDATE('2018-12-21', INTERVAL 1 MICROSECOND)|`f4`^COLLATION(`f4`)) AS `f2`,(!COLLATION(`f6`)&-\u001b[4mCHARSET\u001b[0m(`f4`)*ROUND(0.41382619215470384)) AS `f3` FROM (SELECT `col_double_key_unsigned` AS `f4`,`col_bigin\nTo\n\n\n\n",
+        "trans_success": [
+            false
+        ],
+        "origin_exec_result": [
+            "[(Decimal('0.00010000000000000000'), 2018, 0), (Decimal('12.99100000000000000000'), 2023, 0), (Decimal('2.00000000000000000000'), 2018, 0), (Decimal('12.99100000000000000000'), 2019, 0), (Decimal('6949.00000000000000000000'), 2018, 0), (Decimal('1.00900000000000000000'), 2031, 0), (Decimal('0E-20'), 12282, 0)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.SyntaxError) syntax error at or near \"Error\"\nLINE 1: Error while parsing\n        ^\n\n[SQL: Error while parsing\nRequired keyword: 'this' missing for <class 'sqlglot.expressions.Neg'>. Line 1, Col: 125. f1`,(SUBDATE('2018-12-21', INTERVAL 1 MICROSECOND)|`f4`^COLLATION(`f4`)) AS `f2`,(!COLLATION(`f6`)&-\u001b[4mCHARSET\u001b[0m(`f4`)*ROUND(0.41382619215470384)) AS `f3` FROM (SELECT `col_double_key_unsigned` AS `f4`,`col_bigin\nTo\n\n\n\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (LEFT(`f5`, 5)) AS `f1`,(`f4`-DATE_ADD('2001-03-27', INTERVAL 1 HOUR)) AS `f2`,(REPEAT(`f6`, 7)) AS `f3` FROM (SELECT `col_bigint_undef_signed` AS `f4`,`col_float_undef_signed` AS `f5`,`col_varchar(20)_undef_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (((5)>(~`f1`>>`f3`)) AND ((`f3`) NOT BETWEEN REPEAT(`f2`, 6) AND `f1`)) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    LEFT(\"f5\", 5)\n  ) AS \"f1\",\n  (\n    \"f4\" - '2001-03-27' + INTERVAL '1 HOUR'\n  ) AS \"f2\",\n  (\n    REPEAT(\"f6\", 7)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_signed\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_varchar(20)_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        5\n      ) > (\n        ~\"f1\" >> \"f3\"\n      )\n    )\n    AND (\n      NOT (\n        \"f3\"\n      ) BETWEEN REPEAT(\"f2\", 6) AND \"f1\"\n    )\n  ) IS FALSE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    LEFT(\"f5\", 5)\n  ) AS \"f1\",\n  (\n    \"f4\" - '2001-03-27' + INTERVAL '1 HOUR'\n  ) AS \"f2\",\n  (\n    REPEAT(\"f6\", 7)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_signed\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_varchar_20_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        5\n      ) > (\n        ~\"f1\" >> \"f3\"\n      )\n    )\n    AND (\n      NOT (\n        \"f3\"\n      ) BETWEEN REPEAT(\"f2\", 6) AND \"f1\"\n    )\n  ) IS FALSE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[('15.12', -2010.0, '0000000'), ('-0.00', -1922.0, 'ififififififif'), ('12.99', -2003.0, '0000000'), ('-9.18', -2001.0, 'kkkkkkk'), ('2', -2000.0, '1111111'), ('0.000', -2001.0, '0000000')]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function left(real, integer) does not exist\nLINE 3:     LEFT(\"f5\", 5)\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    LEFT(\"f5\", 5)\n  ) AS \"f1\",\n  (\n    \"f4\" - '2001-03-27' + INTERVAL '1 HOUR'\n  ) AS \"f2\",\n  (\n    REPEAT(\"f6\", 7)\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_bigint_undef_signed\" AS \"f4\",\n    \"col_float_undef_signed\" AS \"f5\",\n    \"col_varchar_20_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        5\n      ) > (\n        ~\"f1\" >> \"f3\"\n      )\n    )\n    AND (\n      NOT (\n        \"f3\"\n      ) BETWEEN REPEAT(\"f2\", 6) AND \"f1\"\n    )\n  ) IS FALSE;\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (COERCIBILITY(`f4`)) AS `f1`,(TO_DAYS('2019-06-18')) AS `f2`,(BINARY `f5`<<DAYNAME('2014-05-14')*`f6`) AS `f3` FROM (SELECT `col_decimal(40, 20)_key_unsigned` AS `f4`,`col_decimal(40, 20)_undef_signed` AS `f5`,`col_varchar(20)_undef_signed` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING (((COLLATION(`f1`)) IS FALSE) OR ((BINARY `f1`%BINARY `f3`)=(`f1`))) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    COERCIBILITY(\"f4\")\n  ) AS \"f1\",\n  (\n    (\n      CAST(EXTRACT(epoch FROM CAST(CAST('2019-06-18' AS DATE) AS TIMESTAMP) - CAST(CAST('0000-01-01' AS DATE) AS TIMESTAMP)) / 86400 AS BIGINT) + 1\n    )\n  ) AS \"f2\",\n  (\n    CAST(\"f5\" AS BYTEA) << DAYNAME('2014-05-14') * \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal(40, 20)_key_unsigned\" AS \"f4\",\n    \"col_decimal(40, 20)_undef_signed\" AS \"f5\",\n    \"col_varchar(20)_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        COLLATION(\"f1\")\n      ) IS FALSE\n    )\n    OR (\n      (\n        CAST(\"f1\" AS BYTEA) % CAST(\"f3\" AS BYTEA)\n      ) = (\n        \"f1\"\n      )\n    )\n  ) IS TRUE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    COERCIBILITY(\"f4\")\n  ) AS \"f1\",\n  (\n    (\n      CAST(EXTRACT(epoch FROM CAST(CAST('2019-06-18' AS DATE) AS TIMESTAMP) - CAST(CAST('0000-01-01' AS DATE) AS TIMESTAMP)) / 86400 AS BIGINT) + 1\n    )\n  ) AS \"f2\",\n  (\n    CAST(\"f5\" AS BYTEA) << DAYNAME('2014-05-14') * \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_key_unsigned\" AS \"f4\",\n    \"col_decimal_40_20_undef_signed\" AS \"f5\",\n    \"col_varchar_20_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        COLLATION(\"f1\")\n      ) IS FALSE\n    )\n    OR (\n      (\n        CAST(\"f1\" AS BYTEA) % CAST(\"f3\" AS BYTEA)\n      ) = (\n        \"f1\"\n      )\n    )\n  ) IS TRUE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(5, 737593, b'3.13870000000000000000'), (5, 737593, b'1.00000000000000000000'), (5, 737593, b'-0.00010000000000000000'), (5, 737593, b'2.00000000000000000000'), (5, 737593, b'1.00900000000000000000'), (5, 737593, b'2.00000000000000000000'), (5, 737593, b'0.00000000000000000000')]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function coercibility(numeric) does not exist\nLINE 3:     COERCIBILITY(\"f4\")\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    COERCIBILITY(\"f4\")\n  ) AS \"f1\",\n  (\n    (\n      CAST(EXTRACT(epoch FROM CAST(CAST('2019-06-18' AS DATE) AS TIMESTAMP) - CAST(CAST('0000-01-01' AS DATE) AS TIMESTAMP)) / 86400 AS BIGINT) + 1\n    )\n  ) AS \"f2\",\n  (\n    CAST(\"f5\" AS BYTEA) << DAYNAME('2014-05-14') * \"f6\"\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_decimal_40_20_key_unsigned\" AS \"f4\",\n    \"col_decimal_40_20_undef_signed\" AS \"f5\",\n    \"col_varchar_20_undef_signed\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      (\n        COLLATION(\"f1\")\n      ) IS FALSE\n    )\n    OR (\n      (\n        CAST(\"f1\" AS BYTEA) %% CAST(\"f3\" AS BYTEA)\n      ) = (\n        \"f1\"\n      )\n    )\n  ) IS TRUE;\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (!UNIX_TIMESTAMP('2000-05-12 13:23:14')>>`f5`) AS `f1`,(`f6`) AS `f2`,(`f5`>>DAYNAME('2000-02-13')) AS `f3` FROM (SELECT `col_float_undef_unsigned` AS `f4`,`col_bigint_key_signed` AS `f5`,`col_decimal(40, 20)_undef_unsigned` AS `f6` FROM `table_3_utf8_undef`) AS `t1` HAVING ((NOT ((`f2`) BETWEEN `f2` AND `f3`)) OR (CAST((`f3`) AS CHAR) LIKE '%1%')) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    NOT UNIX_TIMESTAMP('2000-05-12 13:23:14') >> \"f5\"\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    \"f5\" >> DAYNAME('2000-02-13')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_unsigned\" AS \"f4\",\n    \"col_bigint_key_signed\" AS \"f5\",\n    \"col_decimal(40, 20)_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        (\n          \"f2\"\n        ) BETWEEN \"f2\" AND \"f3\"\n      )\n    )\n    OR (\n      CAST((\n        \"f3\"\n      ) AS CHAR) LIKE '%1%'\n    )\n  ) IS TRUE;\n"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    NOT UNIX_TIMESTAMP('2000-05-12 13:23:14') >> \"f5\"\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    \"f5\" >> DAYNAME('2000-02-13')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_unsigned\" AS \"f4\",\n    \"col_bigint_key_signed\" AS \"f5\",\n    \"col_decimal_40_20_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        (\n          \"f2\"\n        ) BETWEEN \"f2\" AND \"f3\"\n      )\n    )\n    OR (\n      CAST((\n        \"f3\"\n      ) AS CHAR) LIKE '%1%'\n    )\n  ) IS TRUE;\n",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(0, Decimal('79.14290000000000000000'), 39), (0, Decimal('2.00000000000000000000'), 18446744073709551607), (0, Decimal('0.15980000000000000000'), 18446744073709530369)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function unix_timestamp(unknown) does not exist\nLINE 3:     NOT UNIX_TIMESTAMP('2000-05-12 13:23:14') >> \"f5\"\n                ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    NOT UNIX_TIMESTAMP('2000-05-12 13:23:14') >> \"f5\"\n  ) AS \"f1\",\n  (\n    \"f6\"\n  ) AS \"f2\",\n  (\n    \"f5\" >> DAYNAME('2000-02-13')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_unsigned\" AS \"f4\",\n    \"col_bigint_key_signed\" AS \"f5\",\n    \"col_decimal_40_20_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT (\n        (\n          \"f2\"\n        ) BETWEEN \"f2\" AND \"f3\"\n      )\n    )\n    OR (\n      CAST((\n        \"f3\"\n      ) AS CHAR) LIKE '%%1%%'\n    )\n  ) IS TRUE;\n]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (`f5`) AS `f1`,('l') AS `f2`,(`f4`^SUBTIME('2003-01-11 06:56:39', '13:11:58')) AS `f3` FROM (SELECT `col_double_undef_unsigned` AS `f4`,`col_char(20)_key_signed` AS `f5`,`col_bigint_undef_unsigned` AS `f6` FROM `table_3_utf8_undef`) AS `t1` HAVING ((`f3`)!=(`f3`<<BIN(`f3`))) IS TRUE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    'l'\n  ) AS \"f2\",\n  (\n    \"f4\" # SUBTIME('2003-01-11 06:56:39', '13:11:58')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_unsigned\" AS \"f4\",\n    \"col_char(20)_key_signed\" AS \"f5\",\n    \"col_bigint_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      \"f3\"\n    ) <> (\n      \"f3\" << BIN(\"f3\")\n    )\n  ) IS TRUE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    'l'\n  ) AS \"f2\",\n  (\n    \"f4\" # SUBTIME('2003-01-11 06:56:39', '13:11:58')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_unsigned\" AS \"f4\",\n    \"col_char_20_key_signed\" AS \"f5\",\n    \"col_bigint_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      \"f3\"\n    ) <> (\n      \"f3\" << BIN(\"f3\")\n    )\n  ) IS TRUE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[('3', 'l', 19192), ('1', 'l', 2001), ('w', 'l', 2001)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function subtime(unknown, unknown) does not exist\nLINE 9:     \"f4\" # SUBTIME('2003-01-11 06:56:39', '13:11:58')\n                   ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    \"f5\"\n  ) AS \"f1\",\n  (\n    'l'\n  ) AS \"f2\",\n  (\n    \"f4\" # SUBTIME('2003-01-11 06:56:39', '13:11:58')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_double_undef_unsigned\" AS \"f4\",\n    \"col_char_20_key_signed\" AS \"f5\",\n    \"col_bigint_undef_unsigned\" AS \"f6\"\n  FROM \"table_3_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      \"f3\"\n    ) <> (\n      \"f3\" << BIN(\"f3\")\n    )\n  ) IS TRUE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    },
+    {
+        "origin_sql": [
+            "SELECT (STRCMP(`f5`, `f5`)) AS `f1`,(ATAN(9)|-`f4`) AS `f2`,(BINARY CHAR_LENGTH('mean')^LOWER(`f6`)|DAYNAME('2008-02-01')) AS `f3` FROM (SELECT `col_float_undef_signed` AS `f4`,`col_bigint_undef_signed` AS `f5`,`col_bigint_undef_unsigned` AS `f6` FROM `table_7_utf8_undef`) AS `t1` HAVING ((CAST((`f3`) AS CHAR) NOT REGEXP '[0-9]+[0-9]+') IS FALSE) IS FALSE"
+        ],
+        "target_sql": [
+            "SELECT\n  (\n    STRCMP(\"f5\", \"f5\")\n  ) AS \"f1\",\n  (\n    ATAN(9) | -\"f4\"\n  ) AS \"f2\",\n  (\n    CAST(LENGTH('mean') AS BYTEA) # LOWER(\"f6\") | DAYNAME('2008-02-01')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_signed\" AS \"f4\",\n    \"col_bigint_undef_signed\" AS \"f5\",\n    \"col_bigint_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT CAST((\n        \"f3\"\n      ) AS CHAR) ~ '[0-9]+[0-9]+'\n    ) IS FALSE\n  ) IS FALSE;"
+        ],
+        "target_sql_processed": "SELECT\n  (\n    STRCMP(\"f5\", \"f5\")\n  ) AS \"f1\",\n  (\n    ATAN(9) | -\"f4\"\n  ) AS \"f2\",\n  (\n    CAST(LENGTH('mean') AS BYTEA) # LOWER(\"f6\") | DAYNAME('2008-02-01')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_signed\" AS \"f4\",\n    \"col_bigint_undef_signed\" AS \"f5\",\n    \"col_bigint_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT CAST((\n        \"f3\"\n      ) AS CHAR) ~ '[0-9]+[0-9]+'\n    ) IS FALSE\n  ) IS FALSE;",
+        "trans_success": [
+            true
+        ],
+        "origin_exec_result": [
+            "[(0, 18446744073709551601, 5), (0, 1, 9), (0, 18446744073709551603, 5), (0, 9, 9), (0, 18446744073709551615, 4), (0, 1, 5), (0, 18446744073709551615, 5)]"
+        ],
+        "origin_exec_error": [
+            "None"
+        ],
+        "target_exec_result": [
+            "None"
+        ],
+        "target_exec_error": [
+            "(psycopg2.errors.UndefinedFunction) function strcmp(bigint, bigint) does not exist\nLINE 3:     STRCMP(\"f5\", \"f5\")\n            ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts.\n\n[SQL: SELECT\n  (\n    STRCMP(\"f5\", \"f5\")\n  ) AS \"f1\",\n  (\n    ATAN(9) | -\"f4\"\n  ) AS \"f2\",\n  (\n    CAST(LENGTH('mean') AS BYTEA) # LOWER(\"f6\") | DAYNAME('2008-02-01')\n  ) AS \"f3\"\nFROM (\n  SELECT\n    \"col_float_undef_signed\" AS \"f4\",\n    \"col_bigint_undef_signed\" AS \"f5\",\n    \"col_bigint_undef_unsigned\" AS \"f6\"\n  FROM \"table_7_utf8_undef\"\n) AS \"t1\"\nHAVING\n  (\n    (\n      NOT CAST((\n        \"f3\"\n      ) AS CHAR) ~ '[0-9]+[0-9]+'\n    ) IS FALSE\n  ) IS FALSE;]\n(Background on this error at: https://sqlalche.me/e/20/f405)"
+        ],
+        "exec_success": [
+            false
+        ],
+        "trans_semantic": [
+            false
+        ]
+    }
+]

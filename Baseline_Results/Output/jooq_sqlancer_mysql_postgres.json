@@ -1,0 +1,340 @@
+[
+    {
+        "date": "15/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95820"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "create table t0 (\n  c0 int,\n  c1 int,\n  c2 int,\n  unique (c0),\n  unique (c2)\n)\nengine MyISAM",
+            "Identifier expected: [1:39] INSERT INTO t0(c0) VALUES(DEFAULT), (\"[*]\");",
+            "DEFAULT VALUES, WITH, SELECT, SET, or VALUES expected: [1:20] INSERT IGNORE INTO [*]t0(c2) VALUES(\"a\");",
+            "REPLACE not yet implemented. If you're interested in this feature, please comment on https://github.com/jOOQ/jOOQ/issues/16487: [1:9] REPLACE [*]INTO t0(c1, c0, c2) VALUES(1, DEFAULT, DEFAULT), (DEFAULT, \"a\", \"a\");",
+            "Unexpected content after end of field input: [1:8] REPAIR [*]TABLE t0 QUICK EXTENDED USE_FRM;",
+            "select *\nfrom t0"
+        ],
+        "title": "REPAIR TABLE on a functional table marks it as crashed"
+    },
+    {
+        "date": "18/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95856"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "create table t0 (\n  c0 int,\n  c1 int,\n  c2 int,\n  c3 int,\n  unique (c0),\n  unique (c3)\n)\nengine MyISAM",
+            "insert into t0 (c0)\nvalues (default), (\"a\")",
+            "DEFAULT VALUES, WITH, SELECT, SET, or VALUES expected: [1:20] INSERT IGNORE INTO [*]t0(c3) VALUES(\"a\"), (1);",
+            "REPLACE not yet implemented. If you're interested in this feature, please comment on https://github.com/jOOQ/jOOQ/issues/16487: [1:9] REPLACE [*]INTO t0(c1, c0, c3) VALUES(1, 2, 3), (1, \"a\", \"a\");",
+            "select (null in (\n  select t0.c3\n  from t0\n  where t0.c0\n))"
+        ],
+        "title": "\"Can't find record\" error in SELECT statement 1 (MyISAM engine)"
+    },
+    {
+        "date": "18/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95866"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 int,\n  UNIQUE (c0)\n)\nENGINE HEAP",
+            "INSERT INTO t0 (c0)\nVALUES (DEFAULT), (\"a\"), (\"a\")",
+            "SELECT (NULL IN (\n  SELECT t0.c0\n  FROM t0\n  WHERE (\n    t0.c0\n    OR TRUE\n  ) IS NULL\n))"
+        ],
+        "title": "\"Can't find record\" error in SELECT statement 2 (HEAP engine)"
+    },
+    {
+        "date": "01/04/2020",
+        "dbms": "Postgres",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99150"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "closed (not a bug)",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 float8,\n  UNIQUE (c0)\n)",
+            "INSERT INTO t0 (c0)\nVALUES (296088496), (0), (2080822651)",
+            "SELECT *\nFROM t0\nWHERE t0.c0 NOT IN (\n  622120376, -1.421821436E9, 296088496\n)"
+        ],
+        "title": "The IN operator malfunctions for floating-poing numbers"
+    },
+    {
+        "date": "04/04/2020",
+        "dbms": "Postgres",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99182"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "closed (not a bug)",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 decimal,\n  UNIQUE (c0)\n)",
+            "INSERT INTO t0 (c0)\nVALUES (0)",
+            "SELECT *\nFROM t0\nWHERE '' BETWEEN t0.c0 AND t0.c0"
+        ],
+        "title": "BETWEEN computes incorrect result when comparing DECIMAL with a string"
+    },
+    {
+        "comment": "We found this bug on the latest public version of MySQL. The bug report was closed, since the bug had already been fixed internally.",
+        "date": "20/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95900"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "closed (duplicate)",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 int\n)",
+            "INSERT INTO t0 (c0)\nVALUES (1)",
+            "SELECT *\nFROM t0\nWHERE 123 <> (NOT (NOT (123 <> 0)))"
+        ],
+        "title": "Applying NOT twice on an integer results in wrong result in WHERE condition"
+    },
+    {
+        "date": "21/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95908"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 smallint\n)",
+            "INSERT INTO t0 (c0)\nVALUES (NULL)",
+            "SELECT *\nFROM t0\nWHERE NOT (t0.c0 IS NOT DISTINCT FROM 2035382037)"
+        ],
+        "title": "The negation of a \"<=>\" comparison malfunctions depending on the column's type"
+    },
+    {
+        "comment": "The bug was fixed in 8.0.17, but not necessarily based on our bug report, since it was not referenced.",
+        "date": "22/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95926"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 int\n)",
+            "INSERT INTO t0 (c0)\nVALUES (1)",
+            "Boolean field expected: [1:45] SELECT * FROM t0 WHERE IF(FALSE, t0.c0, 0.1)[*];"
+        ],
+        "title": "Row is not fetched when using a function expression that should yield TRUE"
+    },
+    {
+        "date": "22/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95927"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "Boolean field expected: [1:23] SELECT FALSE XOR '0.5'[*];"
+        ],
+        "title": "XOR operator returns incorrect result for strings with a floating-point number"
+    },
+    {
+        "date": "22/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.20",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95929"
+        },
+        "oracle": "error",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 int\n)\nENGINE MyISAM",
+            "SELECT *\nFROM information_schema.TABLES"
+        ],
+        "title": "Duplicate entry for key 'PRIMARY' when querying information_schema.TABLES"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95937"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed (in documentation)",
+        "test": [
+            "SELECT BENCHMARK(NULL, 1)",
+            "SELECT BENCHMARK(-1, 1)"
+        ],
+        "title": "BENCHMARK() returns NULL in some cases but is documented to always return 0"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95938"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 text\n)",
+            "DEFAULT VALUES, WITH, SELECT, SET, or VALUES expected: [1:20] INSERT IGNORE INTO [*]t0(c0) VALUES(\"\\n123\");",
+            "Boolean field expected: [1:39] SELECT * FROM t0 WHERE COALESCE(t0.c0)[*];",
+            "Boolean field expected: [1:40] SELECT * FROM t0 WHERE IFNULL(t0.c0, 1)[*];"
+        ],
+        "title": "Function return value with newline yields wrong result when used as a boolean"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95942"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 text\n)",
+            "INSERT INTO t0 (c0)\nVALUES (0.9)",
+            "SELECT *\nFROM t0\nWHERE t0.c0"
+        ],
+        "title": "TEXT column used as boolean incorrectly evaluates to false"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.18",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95954"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 decimal\n)",
+            "INSERT INTO t0 (c0)\nVALUES (NULL)",
+            "SELECT *\nFROM t0\nWHERE CAST(coalesce(t0.c0, -1) AS decimal) <> 0",
+            "SELECT *\nFROM t0\nWHERE CAST(coalesce(t0.c0, -1) AS decimal) <> 0"
+        ],
+        "title": "CAST of negative function return value to UNSIGNED malfunctions with BIGINT"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95957"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 int\n)",
+            "INSERT INTO t0 (c0)\nVALUES (-1)",
+            "SELECT (t0.c0 IN (\n  1, CAST(t0.c0 AS decimal)\n))\nFROM t0"
+        ],
+        "title": "IN operator issue when comparing signed column and the column cast to unsigned"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "Postgres",
+        "fix_version": "8.0.17",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95958"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 text\n)",
+            "INSERT INTO t0 (c0)\nVALUES (\"0.5\")",
+            "SELECT *\nFROM t0\nWHERE (\n  t0.c0\n  AND 1 <> 0\n)",
+            "SELECT *\nFROM t0\nWHERE (\n  t0.c0\n  OR 0 <> 0\n)",
+            "SELECT *\nFROM t0\nWHERE t0.c0 <> (0 <> 0)"
+        ],
+        "title": "AND/OR/XOR compute wrong result for small floating-point numbers in TEXT columns"
+    },
+    {
+        "date": "24/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95960"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "Unsupported query type: [1:14] SELECT '\\n1' [*]& 1;",
+            "Unsupported query type: [1:14] SELECT '\\n1' [*]| 0;",
+            "SELECT power('\n1', 1)"
+        ],
+        "title": "The logical operators &, |, and ^ do not ignore newlines in TEXT"
+    },
+    {
+        "date": "25/06/2019",
+        "dbms": "Postgres",
+        "links": {
+            "bugtracker": "https://bugs.mysql.com/bug.php?id=95964"
+        },
+        "oracle": "PQS",
+        "reporter": "Manuel Rigger",
+        "status": "fixed",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 int\n)",
+            "CREATE TABLE t1 (\n  c0 int\n)\nENGINE MEMORY",
+            "INSERT INTO t0 (c0)\nVALUES (0)",
+            "INSERT INTO t1 (c0)\nVALUES (-1)",
+            "SELECT *\nFROM t0, t1\nWHERE CAST(t1.c0 AS decimal) > coalesce(\"u\", t0.c0)"
+        ],
+        "title": "Compare that uses UNSIGNED cast and function malfunctions in the MEMORY engine"
+    },
+        {
+        "date": "01/04/2020",
+        "dbms": "Postgres",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99146"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 float8,\n  UNIQUE (c0)\n)",
+            "INSERT INTO t0 (c0)\nVALUES (0)",
+            "SELECT *\nFROM t0\nWHERE t0.c0 BETWEEN 0 AND '1e500'"
+        ],
+        "title": "Comparison on FLOAT column and large value malfunctions"
+    },
+    {
+        "date": "01/04/2020",
+        "dbms": "Postgres",
+        "links": {
+            "bugreport": "https://bugs.mysql.com/bug.php?id=99149"
+        },
+        "oracle": "TLP (WHERE Extended)",
+        "reporter": "Manuel Rigger",
+        "status": "verified",
+        "test": [
+            "CREATE TABLE t0 (\n  c0 text\n)",
+            "INSERT INTO t0 (c0)\nVALUES (0)",
+            "CREATE INDEX i0 ON t0(c0(1))",
+            "SELECT *\nFROM t0\nWHERE t0.c0 NOT BETWEEN '֣a' AND NULL"
+        ],
+        "title": "BETWEEN query malfunctions for special character and TEXT index"
+    }
+]

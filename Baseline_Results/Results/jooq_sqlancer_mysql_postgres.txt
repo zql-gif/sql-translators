@@ -1,0 +1,6 @@
+cnt:20
+avg len:193.7
+transfer_success:14
+exec_success:4
+exec_error_type:{'SyntaxError': 3, 'UndefinedTable': 4, 'InvalidTextRepresentation': 1, 'UndefinedFunction': 5, 'DatatypeMismatch': 3, 'UndefinedColumn': 1, 'NumericValueOutOfRange': 1}
+semantic_success:4
